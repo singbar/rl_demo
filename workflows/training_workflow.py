@@ -1,6 +1,7 @@
 from temporalio import workflow
 from dataclasses import dataclass
 from typing import Optional
+from datetime import timedelta
 from activities.generate_jobs import generate_jobs_activity
 from activities.generate_clusuter import generate_cluster_activity
 from activities.train import train_policy_activity
