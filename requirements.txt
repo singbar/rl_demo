@@ -1,6 +1,6 @@
 # Core RL stack (as of Ray 2.9.1, stable & compatible with Gymnasium and NumPy 2.0)
 ray[rllib]==2.9.1
-gymnasium==0.29.1
+gymnasium
 numpy==1.26.4
 
 # Torch and environment
