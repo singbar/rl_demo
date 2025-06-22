@@ -59,6 +59,4 @@ class TrainingJobSchedulingEnv(gym.Env):
         return self.state, reward, terminated, truncated, info
     @property
     def spec(self):
-        class Spec:
-            max_episode_steps = 100
-        return Spec()
+        return EnvSpec(id="TrainingJobSchedulingEnv-v0", max_episode_steps=100)
