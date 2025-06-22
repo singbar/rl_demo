@@ -1,7 +1,7 @@
 # run_workflow.py
 import asyncio
 from temporalio.client import Client
-from workflows.training_workflow import TrainingWorkflow
+from workflows.training_workflow import TrainingWorkflow, TrainingConfig
 
 async def main():
     client = await Client.connect("localhost:7233")  # or cloud endpoint
