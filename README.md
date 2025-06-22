@@ -17,7 +17,7 @@ We train an RL-based job scheduler in a simulated cluster environment. Temporal 
 
 ## ⚙️ Architecture
 
-### 🧪 `TestWorkflow`
+### 🧪 `test_workflow`
 
 A lightweight test of Temporal activity registration and Ray integration.
 
@@ -25,45 +25,46 @@ A lightweight test of Temporal activity registration and Ray integration.
 graph TD
     A[Start] --> B[Generate Cluster]
     B --> C[Generate Jobs]
-    C --> D[Return Success]
+    C --> D[Train on synthetic data]
+    D --> E[Run inference]
+    E -->F[Print Inference Result]
 ```
 
 ---
 
-### 🔁 `TrainingWorkflow`
+### 🔁 `scheduler_workflow`
 
-Trains a PPO policy using Ray RLlib and evaluates the trained model on a sample observation.
+This workflow runs inference on a PPO model using Ray RLlib to schedule synthetic job requests to a simulated set of clusters
 
 ```mermaid
 graph TD
-    A[generate_cluster] --> B[generate_jobs]
-    B --> C[train_policy_activity]
-    C --> D[run_policy_activity]
-    D --> E[Return Action + Checkpoint]
+    A[generate simulated cluster] --> B[generate synthetic jobs]
+    B --> C[run PPO inference]
+    C --> D[print inference results]
 ```
 
 ---
 
-### 🎯 `TrainingLoopWorkflow`
+### 🎯 `training_loop_workflow`
 
-Executes multiple PPO training iterations in sequence, potentially with new configurations each round.
+Iteratively loops through training rounds, generating fresh data, training the model, and scoring the result with a reward. Will iterate continuously until interrupted via a signal
 
 ```mermaid
 graph TD
     A[Start Loop] --> B[generate_cluster]
     B --> C[generate_jobs]
     C --> D[train_policy_activity]
-    D --> E[store_checkpoint]
-    E --> F{More Rounds?}
-    F -- Yes --> B
-    F -- No --> G[Run Evaluation]
-    G --> H[Return All Results]
+    D --> E[run_evaluation]
+    E--> F[store_checkpoint]
+    F --> G{More Rounds?}
+    G -- Yes --> B
+    G -- No --> H[Return All Results]
 ```
 
 ---
 
 ## 📦 Key Components
-
+### TO BE REVISITED
 - `env/training_scheduler_env.py`: OpenAI Gym-compatible environment.
 - `models/config.py`: Defines the `TrainingConfig` dataclass.
 - `activities/train_policy_activity.py`: Trains the PPO policy.
@@ -89,30 +90,20 @@ pip install -r requirements.txt
 3. **Run the worker**
 
 ```bash
-python deployment/run_worker.py
+python -m client.launch_worker_local.py
 ```
 
 4. **Trigger the workflows**
 
-- Run a test workflow:
+- Run all workflows through:
 
 ```bash
-python run_test_workflow.py
-```
-
-- Run the training workflow:
-
-```bash
-python run_training_workflow.py
-```
-
-- Run the loop workflow:
-
-```bash
-python run_training_loop_workflow.py
+python -m client.rl_client
 ```
 
 ---
+
+For best results, run the training loop for a while before testing inference. 
 
 ## 🔁 Failure Handling
 
