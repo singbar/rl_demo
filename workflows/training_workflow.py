@@ -25,13 +25,13 @@ class TrainingWorkflow:
     async def run(self, config: TrainingConfig) -> dict:
         cluster = await workflow.execute_activity(
             generate_cluster_activity,
-            kwargs={"debug": False},  # safer in case debug is expected
+            kwargs={"debug": False},  
             start_to_close_timeout=timedelta(seconds=30),
         )
 
         jobs = await workflow.execute_activity(
             generate_jobs_activity,
-            kwargs={"cluster": cluster, "debug": False},
+            kwargs={"debug": False},
             start_to_close_timeout=timedelta(seconds=30),
         )
 
