@@ -12,14 +12,14 @@ from utils.numpy_converter import convert_numpy
 class SchedulerWorkflow:
     @workflow.run
     async def run(self):
-        for _ in range(5):  # replace with while True in prod
+        for _ in range(10):  # replace with while True in prod
             jobs = await workflow.execute_activity(
                 generate_jobs_activity,
-                schedule_to_close_timeout=timedelta(seconds=15)
+                schedule_to_close_timeout=timedelta(seconds=60)
             )
             cluster = await workflow.execute_activity(
                 generate_cluster_activity,
-                schedule_to_close_timeout=timedelta(seconds=15)
+                schedule_to_close_timeout=timedelta(seconds=60)
             )
 
             obs = encode_state(jobs, cluster)
@@ -28,7 +28,7 @@ class SchedulerWorkflow:
             action = await workflow.execute_activity(
                 run_policy_activity,
                 args=[obs],
-                schedule_to_close_timeout=timedelta(seconds=15)
+                schedule_to_close_timeout=timedelta(seconds=60)
             )
 
             # 🔧 Ensure all arguments are JSON-serializable
