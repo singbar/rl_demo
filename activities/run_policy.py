@@ -26,7 +26,7 @@ async def run_policy_activity(observation):
         .environment(env=TrainingJobSchedulingEnv)
         .framework("torch")
         .experimental(_enable_new_api_stack=False)
-        .env_runners(num_env_runners=0)
+        #.env_runners(num_env_runners=0)
         .resources(num_gpus=0)
     )
 

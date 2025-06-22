@@ -16,7 +16,7 @@ def main():
     config = PPOConfig()
     config.environment(env="training_scheduler")
     config.framework("torch")
-    config.env_runners(num_env_runners=1)
+    #config.env_runners(num_env_runners=1)
     config.training(train_batch_size=4000)
     config.resources(num_gpus=0)
 
