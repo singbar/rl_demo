@@ -24,7 +24,7 @@ async def train_policy_activity(config: dict = None) -> str:
     algo = ppo_config.build()
 
     # Run training iterations
-    num_iters = config.get("num_iters", 5)
+    num_iters = config.get("num_iters", 50)
     for i in range(num_iters):
         result = algo.train()
         print(f"Iteration {i + 1}/{num_iters}, reward: {result['episode_reward_mean']}")
