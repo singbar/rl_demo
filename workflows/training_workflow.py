@@ -1,6 +1,10 @@
 from temporalio import workflow
 from dataclasses import dataclass
 from typing import Optional
+from activities.generate_jobs import generate_jobs_activity
+from activities.generate_clusuter import generate_cluster_activity
+from activities.train import train_policy_activity
+from activities.run_policy import run_policy_activity
 
 import os
 
@@ -19,12 +23,12 @@ class TrainingWorkflow:
     @workflow.run
     async def run(self, config: TrainingConfig) -> dict:
         cluster = await workflow.execute_activity(
-            generate_cluster,
+            generate_cluster_activity,
             start_to_close_timeout=timedelta(seconds=30),
         )
 
         jobs = await workflow.execute_activity(
-            generate_jobs,
+            generate_jobs_activity,
             args=[cluster],
             start_to_close_timeout=timedelta(seconds=30),
         )
