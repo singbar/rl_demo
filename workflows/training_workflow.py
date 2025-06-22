@@ -6,6 +6,7 @@ from activities.generate_jobs import generate_jobs_activity
 from activities.generate_clusuter import generate_cluster_activity
 from activities.train import train_policy_activity
 from activities.run_policy import run_policy_activity
+from dataclasses import asdict
 
 import os
 
