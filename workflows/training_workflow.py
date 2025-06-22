@@ -25,12 +25,13 @@ class TrainingWorkflow:
     async def run(self, config: TrainingConfig) -> dict:
         cluster = await workflow.execute_activity(
             generate_cluster_activity,
+            kwargs={"debug": False},  # safer in case debug is expected
             start_to_close_timeout=timedelta(seconds=30),
         )
 
         jobs = await workflow.execute_activity(
             generate_jobs_activity,
-            args=[cluster],
+            kwargs={"cluster": cluster, "debug": False},
             start_to_close_timeout=timedelta(seconds=30),
         )
 
@@ -40,7 +41,7 @@ class TrainingWorkflow:
             start_to_close_timeout=timedelta(minutes=15),
         )
 
-        observation = jobs[0]["features"]  # or however you structure it
+        observation = jobs[0]["features"]
         action = await workflow.execute_activity(
             run_policy_activity,
             args=[observation],
