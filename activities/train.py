@@ -39,7 +39,7 @@ async def train_policy_activity(config: dict = None) -> str:
     num_iters = config.get("num_iters", 50) 
     for i in range(num_iters):
         result = algo.train()
-        print(f"Raw training result: {result}")
+        #print(f"Raw training result: {result}") <-- Uncommment for greater visbility into each itereation
         print(f"Iteration {i + 1}/{num_iters}, reward: {result['episode_reward_mean']}")
 
     # Save checkpoint

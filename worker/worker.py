@@ -5,8 +5,8 @@ import os
 from temporalio.worker import Worker
 from temporalio.client import Client
 from workflows.scheduler_workflow import SchedulerWorkflow
-from  workflows.training_workflow import TrainingWorkflow
-from workflows.training_workflow_v2 import TrainingWorkflowLoop
+from  workflows.test_workflow import TrainingWorkflow
+from workflows.training_loop_workflow import TrainingWorkflowLoop
 from activities.generate_clusuter import generate_cluster_activity
 from activities.generate_jobs import generate_jobs_activity 
 from activities.apply_schedule_activity import  apply_schedule_activity
