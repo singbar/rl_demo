@@ -6,6 +6,7 @@ from temporalio.client import Client
 from dataclasses import asdict
 from workflows.training_loop_workflow import TrainingWorkflowLoop, TrainingConfig
 from workflows.scheduler_workflow import SchedulerWorkflow
+from workflows.test_workflow import TrainingWorkflow
 
 # Default training configuration
 default_config = TrainingConfig(
@@ -50,7 +51,6 @@ async def run():
         elif choice == "3":
             handle = await client.start_workflow(
                 SchedulerWorkflow.run,
-                default_config,
                 id="scheduler-inference-run",
                 task_queue="ml-scheduler-task-queue",
                 execution_timeout=timedelta(minutes=10),
@@ -61,7 +61,7 @@ async def run():
 
         elif choice == "4":
             handle = await client.start_workflow(
-                SchedulerWorkflow.run,
+                TrainingWorkflow.run,
                 default_config,
                 id="scheduler-test-run",
                 task_queue="ml-scheduler-task-queue",
