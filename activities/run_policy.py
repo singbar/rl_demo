@@ -1,25 +1,28 @@
 from temporalio import activity
 import numpy as np
-
-
 from env.training_scheduler_env import TrainingJobSchedulingEnv
-import numpy as np
+
 
 def to_builtin(x):
+    """Convert NumPy types to plain Python types for Temporal serialization."""
     if isinstance(x, np.ndarray):
-        return x.tolist()  # handles both 1D and multi-D arrays
+        if x.size == 1:
+            return x.item()
+        return x.tolist()
     elif isinstance(x, np.generic):
         return x.item()
     else:
         return x
 
-@activity.defn
-async def run_policy_activity(observation):
+
+@activity.defn(name="run_policy_activity")
+async def run_policy_activity(observation: dict) -> int:
     import ray
     from ray.rllib.algorithms.ppo import PPOConfig
-    
-    # Dummy reinit for single-node
-    ray.init(ignore_reinit_error=True, include_dashboard=False)
+
+    # Reinit for local Ray (no dashboard)
+    if not ray.is_initialized():
+        ray.init(ignore_reinit_error=True, include_dashboard=False)
 
     config = (
         PPOConfig()
@@ -30,9 +33,7 @@ async def run_policy_activity(observation):
     )
 
     algo = config.build()
-    #algo.restore("ppo_training_scheduler_checkpoint")
+    algo.restore("ppo_training_scheduler_checkpoint")
 
     action = algo.compute_single_action(observation)
     return to_builtin(action)
-
-
