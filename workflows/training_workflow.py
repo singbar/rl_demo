@@ -43,25 +43,25 @@ class TrainingWorkflow:
         # 🔧 Encode and serialize observation for policy inference
         obs = encode_state(jobs, cluster)
         obs = convert_numpy(obs)
-        
-        actions = await workflow.execute_activity(
+
+        action = await workflow.execute_activity(
             run_policy_activity,
             args=[obs],
             start_to_close_timeout=timedelta(seconds=30),
         )
 
-        for job, action in zip(jobs, actions):
-            await workflow.execute_activity(
+        # 🔧 Serialize all arguments for apply_schedule
+        safe_jobs = convert_numpy(jobs)
+        safe_cluster = convert_numpy(cluster)
+        safe_action = convert_numpy(action)
+
+        await workflow.execute_activity(
             apply_schedule_activity,
-            args=[
-                convert_numpy(job),
-                convert_numpy(cluster),
-                convert_numpy(action),
-                ],
-                schedule_to_close_timeout=timedelta(seconds=15),
-            )
+            args=[safe_jobs, safe_cluster, safe_action],
+            schedule_to_close_timeout=timedelta(seconds=15),
+        )
 
         return {
             "checkpoint_path": checkpoint_path,
-            "sample_action": actions[0] if actions else None,
+            "sample_action": action,
         }

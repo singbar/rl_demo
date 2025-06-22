@@ -27,15 +27,5 @@ async def run_policy_activity(observation: dict):
     algo = config.build()
     algo.restore("ppo_training_scheduler_checkpoint")
 
-    #Run inference for each job
-    actions = []
-    for job_feat in observation["job_features"]:
-        single_obs = {
-            "cluster_features": observation["cluster_features"],
-            "global_features": observation["global_features"],
-            "job_features": job_feat
-        }
-        action = algo.compute_single_action(single_obs)
-        actions.append(to_builtin(action))
-
-    return to_builtin(actions)
+    action = algo.compute_single_action(observation)
+    return to_builtin(action)
