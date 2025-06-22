@@ -11,44 +11,38 @@ class TrainingConfig:
     checkpoint_dir: str = "ppo_training_scheduler_checkpoint"
     env_name: str = "env.training_scheduler_env.TrainingJobSchedulingEnv"  # import path
     num_gpus: int = 0
+    train_batch_size: int = 1000
 
 
 @workflow.defn
 class TrainingWorkflow:
     @workflow.run
-    async def run(self, config: TrainingConfig) -> str:
-        import ray
-        from ray.rllib.algorithms.ppo import PPOConfig
-        import importlib
-
-        # Ray init (for single-node)
-        ray.init(ignore_reinit_error=True, include_dashboard=False)
-
-        # Dynamically import environment
-        module_path, class_name = config.env_name.rsplit(".", 1)
-        env_module = importlib.import_module(module_path)
-        env_class = getattr(env_module, class_name)
-
-        # Configure PPO
-        algo = (
-            PPOConfig()
-            .environment(env=env_class)
-            .framework("torch")
-            .resources(num_gpus=config.num_gpus)
-            .build()
+    async def run(self, config: TrainingConfig) -> dict:
+        cluster = await workflow.execute_activity(
+            generate_cluster,
+            start_to_close_timeout=timedelta(seconds=30),
         )
 
-        # Ensure checkpoint directory exists
-        os.makedirs(config.checkpoint_dir, exist_ok=True)
+        jobs = await workflow.execute_activity(
+            generate_jobs,
+            args=[cluster],
+            start_to_close_timeout=timedelta(seconds=30),
+        )
 
-        # Training loop
-        for i in range(config.iterations):
-            result = algo.train()
-            reward = result["episode_reward_mean"]
-            workflow.logger.info(f"[Iter {i}] reward: {reward:.2f}")
+        checkpoint_path = await workflow.execute_activity(
+            train_policy_activity,
+            args=[asdict(config)],
+            start_to_close_timeout=timedelta(minutes=15),
+        )
 
-            # Save checkpoint
-            checkpoint_path = algo.save(config.checkpoint_dir)
-            workflow.logger.info(f"Saved checkpoint to: {checkpoint_path}")
+        observation = jobs[0]["features"]  # or however you structure it
+        action = await workflow.execute_activity(
+            run_policy_activity,
+            args=[observation],
+            start_to_close_timeout=timedelta(seconds=30),
+        )
 
-        return f"Training completed after {config.iterations} iterations."
+        return {
+            "checkpoint_path": checkpoint_path,
+            "sample_action": action,
+        }

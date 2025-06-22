@@ -1,41 +1,38 @@
 from temporalio import activity
-import numpy as np
-
 from env.training_scheduler_env import TrainingJobSchedulingEnv
+import os
 
-@activity.defn(name="run_inference_activity")
-async def run_inference_activity(observation: dict) -> int:
+@activity.defn(name="train_policy_activity")
+async def train_policy_activity(config: dict = None) -> str:
     import ray
     from ray.rllib.algorithms.ppo import PPOConfig
 
-    # Initialize Ray only if needed
+    # Initialize Ray if needed
     if not ray.is_initialized():
         ray.init(ignore_reinit_error=True, include_dashboard=False)
 
-    # Rebuild PPO config to match the one used during training
-    config = (
+    # Prepare training configuration
+    config = config or {}       
+    ppo_config = (
         PPOConfig()
         .environment(env=TrainingJobSchedulingEnv)
         .framework("torch")
-        .training(train_batch_size=4000)
-        .resources(num_gpus=0)
+        .training(train_batch_size=config.get("train_batch_size", 4000))
+        .resources(num_gpus=config.get("num_gpus", 0))
     )
+    # Build PPO algorithm
+    algo = ppo_config.build()
 
-    # Rebuild algorithm and load checkpoint
-    algo = config.build()
-    algo.restore("ppo_training_scheduler_checkpoint")
+    # Run training iterations
+    num_iters = config.get("num_iters", 5)
+    for i in range(num_iters):
+        result = algo.train()
+        print(f"Iteration {i + 1}/{num_iters}, reward: {result['episode_reward_mean']}")
 
-    # Compute the action
-    action = algo.compute_single_action(observation)
+    # Save checkpoint
+    checkpoint_dir = config.get("checkpoint_dir", "./checkpoints")
+    os.makedirs(checkpoint_dir, exist_ok=True)
+    checkpoint_path = algo.save(checkpoint_dir)
 
-    # Ensure action is a scalar int
-    if isinstance(action, np.ndarray):
-        if action.size != 1:
-            raise ValueError("Expected a single action, got array with shape {}".format(action.shape))
-        action = int(action.item())
-    elif isinstance(action, (int, np.integer)):
-        action = int(action)
-    else:
-        raise TypeError(f"Unexpected action type: {type(action)}")
-
-    return action
+    print(f"Checkpoint saved at: {checkpoint_path}")
+    return checkpoint_path

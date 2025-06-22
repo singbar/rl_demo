@@ -7,7 +7,7 @@ from activities.generate_clusuter import generate_cluster_activity
 from activities.generate_jobs import generate_jobs_activity 
 from activities.apply_schedule_activity import  apply_schedule_activity
 from activities.run_policy import run_policy_activity
-from activities.train import run_inference_activity
+from activities.train import train_policy_activity
 
 async def main():
     print(">>> Worker main() started")
@@ -27,7 +27,7 @@ async def main():
             generate_jobs_activity,
             run_policy_activity,
             apply_schedule_activity,
-            run_inference_activity
+            train_policy_activity
         ],
         max_concurrent_activities=15,
     )

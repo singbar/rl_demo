@@ -1,18 +1,10 @@
 from temporalio import activity
 import numpy as np
 from env.training_scheduler_env import TrainingJobSchedulingEnv
+from utils.to_builtin import to_builtin
 
 
-def to_builtin(x):
-    """Convert NumPy types to plain Python types for Temporal serialization."""
-    if isinstance(x, np.ndarray):
-        if x.size == 1:
-            return x.item()
-        return x.tolist()
-    elif isinstance(x, np.generic):
-        return x.item()
-    else:
-        return x
+
 
 
 @activity.defn(name="run_policy_activity")
