@@ -1,9 +1,12 @@
+#This policy can be tweaked and used for testing Ray RLLib PPO inference behavior without temporal. Useful for tuning logic before updating activities. 
+#The current configuration of this policy is diverged from the inference activity. 
+
 import ray
 from ray.rllib.algorithms.ppo import PPOConfig
 from ray.tune.registry import register_env
-
 from env.training_scheduler_env import TrainingJobSchedulingEnv
 
+#Define Inference Policy
 def main():
     # Register the custom environment
     register_env("training_scheduler", lambda cfg: TrainingJobSchedulingEnv(cfg))

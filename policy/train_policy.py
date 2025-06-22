@@ -1,8 +1,13 @@
+#This policy can be tweaked and used for testing Ray RLLib PPO training behavior without temporal. Useful for tuning logic before updating activities. 
+#The current configuration of this policy is diverged from the training activity. 
+
+#Imports
 import ray
 from ray.rllib.algorithms.ppo import PPOConfig
 from ray.tune.registry import register_env
 from env.training_scheduler_env import TrainingJobSchedulingEnv
 
+#Define Training Policy
 def main():
     # Initialize Ray
     ray.init(ignore_reinit_error=True)

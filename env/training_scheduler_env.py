@@ -1,10 +1,12 @@
-
+#Imports
 import gymnasium as gym
 from gymnasium import spaces
 import numpy as np
-
 from utils.job_generator import generate_cluster_state, generate_pending_jobs
 from utils.state_encoder import encode_state
+
+#This class provides ray with instructions on how to initialize the training/inference environment, 
+#what to do at each training step, and what to do when restting context between episodes.
 
 class TrainingJobSchedulingEnv(gym.Env):
     def __init__(self, config=None):

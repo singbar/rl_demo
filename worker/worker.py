@@ -1,8 +1,12 @@
+#This worker handles both inference and training tasks
+
+#Imports
 import os
 from temporalio.worker import Worker
 from temporalio.client import Client
 from workflows.scheduler_workflow import SchedulerWorkflow
 from  workflows.training_workflow import TrainingWorkflow
+from workflows.training_workflow_v2 import TrainingWorkflowLoop
 from activities.generate_clusuter import generate_cluster_activity
 from activities.generate_jobs import generate_jobs_activity 
 from activities.apply_schedule_activity import  apply_schedule_activity
@@ -12,7 +16,7 @@ from activities.train import train_policy_activity
 async def main():
     print(">>> Worker main() started")
 
-    address = os.getenv("TEMPORAL_ADDRESS", "localhost:7233")
+    address = os.getenv("TEMPORAL_ADDRESS", "localhost:7233") 
     print(f">>> Connecting to Temporal at {address}...")
 
     client = await Client.connect(address)
@@ -21,7 +25,7 @@ async def main():
     worker = Worker(
         client,
         task_queue="ml-scheduler-task-queue",
-        workflows=[SchedulerWorkflow, TrainingWorkflow],
+        workflows=[SchedulerWorkflow, TrainingWorkflow, TrainingWorkflowLoop],
         activities=[
             generate_cluster_activity,
             generate_jobs_activity,

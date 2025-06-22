@@ -16,7 +16,7 @@ class TrainingConfig:
     checkpoint_dir: str = "ppo_training_scheduler_checkpoint"
     env_name: str = "env.training_scheduler_env.TrainingJobSchedulingEnv"  # import path
     num_gpus: int = 0
-    train_batch_size: int = 1000
+    train_batch_size: int = 4000
 
 @workflow.defn
 class TrainingWorkflow:

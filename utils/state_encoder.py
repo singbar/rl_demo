@@ -1,5 +1,9 @@
+#This function encodes text values to vectors for use by the model
+
+#Imports
 import numpy as np
 
+#Set encoder variables
 MAX_JOBS = 500
 MAX_NODES = 3
 JOB_FEATURES = 8
