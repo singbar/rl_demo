@@ -36,7 +36,7 @@ async def train_policy_activity(config: dict = None) -> str:
         print("Continuing with new policy.")
 
     # Run training iterations
-    num_iters = config.get("num_iters", 50) 
+    num_iters = config.get("iterations", 15) 
     for i in range(num_iters):
         result = algo.train()
         #print(f"Raw training result: {result}") <-- Uncommment for greater visbility into each itereation

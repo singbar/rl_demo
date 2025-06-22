@@ -63,7 +63,7 @@ async def run():
             handle = await client.start_workflow(
                 TrainingWorkflow.run,
                 default_config,
-                id="scheduler-test-run",
+                id="e2e-test-run",
                 task_queue="ml-scheduler-task-queue",
                 execution_timeout=timedelta(minutes=10),
             )
