@@ -4,5 +4,5 @@ from utils.job_generator import generate_pending_jobs
 from utils.to_builtin import to_builtin
 
 @activity.defn
-async def generate_jobs(debug: bool = False):
+async def generate_jobs_activity(debug: bool = False):
     return to_builtin(generate_pending_jobs(debug=debug))
