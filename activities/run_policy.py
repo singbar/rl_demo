@@ -8,7 +8,7 @@ from utils.to_builtin import to_builtin
 
 
 @activity.defn(name="run_policy_activity")
-async def run_policy_activity(observation: dict) -> int:
+async def run_policy_activity(observation: dict):
     import ray
     from ray.rllib.algorithms.ppo import PPOConfig
 
