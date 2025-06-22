@@ -8,7 +8,7 @@ async def main():
     result = await client.start_workflow(
         TrainingWorkflow.run,
         id="rl-training-test-001",
-        task_queue="rl-training-task-queue",
+        task_queue="ml-scheduler-task-queue",
     )
     print(f"Started workflow: {result.id}")
 
