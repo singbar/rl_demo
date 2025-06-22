@@ -32,9 +32,7 @@ async def train_policy_activity(config: dict = None) -> str:
     # Save checkpoint
     checkpoint_dir = config.get("checkpoint_dir", "./checkpoints")
     os.makedirs(checkpoint_dir, exist_ok=True)
-    checkpoint_obj = algo.save(checkpoint_dir)
-
-    checkpoint_path = checkpoint_obj.to_directory()
-
+    checkpoint_path = algo.save(checkpoint_dir)
+    
     print(f"Checkpoint saved at: {checkpoint_path}")
     return checkpoint_path
