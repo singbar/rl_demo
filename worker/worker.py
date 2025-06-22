@@ -2,10 +2,12 @@ import os
 from temporalio.worker import Worker
 from temporalio.client import Client
 from workflows.scheduler_workflow import SchedulerWorkflow
+from  workflows.training_workflow import TrainingWorkflow
 from activities.generate_clusuter import generate_cluster_activity
 from activities.generate_jobs import generate_jobs_activity 
 from activities.apply_schedule_activity import  apply_schedule_activity
 from activities.run_policy import run_policy_activity
+from activities.train import run_inference_activity
 
 async def main():
     print(">>> Worker main() started")
@@ -19,12 +21,13 @@ async def main():
     worker = Worker(
         client,
         task_queue="ml-scheduler-task-queue",
-        workflows=[SchedulerWorkflow],
+        workflows=[SchedulerWorkflow, TrainingWorkflow],
         activities=[
             generate_cluster_activity,
             generate_jobs_activity,
             run_policy_activity,
             apply_schedule_activity,
+            run_inference_activity
         ],
         max_concurrent_activities=15,
     )
