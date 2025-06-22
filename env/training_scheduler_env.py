@@ -57,6 +57,3 @@ class TrainingJobSchedulingEnv(gym.Env):
 
         self.state = encode_state(self.current_jobs, self.cluster_state)
         return self.state, reward, terminated, truncated, info
-    @property
-    def spec(self):
-        return EnvSpec(id="TrainingJobSchedulingEnv-v0", max_episode_steps=100)
