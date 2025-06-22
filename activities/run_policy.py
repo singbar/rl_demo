@@ -25,8 +25,7 @@ async def run_policy_activity(observation):
         PPOConfig()
         .environment(env=TrainingJobSchedulingEnv)
         .framework("torch")
-        .api_stack( enable_rl_module_and_learner=False,
-                    enable_env_runner_and_connector_v2=False)
+        .experimental(_enable_new_api_stack=False)
         .env_runners(num_env_runners=0)
         .resources(num_gpus=0)
     )
