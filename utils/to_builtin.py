@@ -1,3 +1,5 @@
+import numpy as mp
+
 def to_builtin(x):
     """Convert NumPy types to plain Python types for Temporal serialization."""
     if isinstance(x, np.ndarray):
