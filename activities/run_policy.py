@@ -31,9 +31,9 @@ async def run_policy_activity(observation: dict):
     actions = []
     for job_feat in observation["job_features"]:
         single_obs = {
-            "cluster_features": np.array(observation["cluster_features"], dtype=np.float32),
-            "global_features": np.array(observation["global_features"], dtype=np.float32),
-            "job_features": np.expand_dims(np.array(job_feat, dtype=np.float32), axis=0)
+            "cluster_features": observation["cluster_features"],
+            "global_features": observation["global_features"],
+            "job_features": job_feat
         }
         action = algo.compute_single_action(single_obs)
         actions.append(to_builtin(action))
