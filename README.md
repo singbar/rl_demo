@@ -82,7 +82,6 @@ graph TD
 pip install -r requirements.txt
 ```
 It is recomended to do this in a virtual environment. This is tested on Python 3.9.14. 
-```
 
 2. **Start Temporal (locally or via Temporal Cloud)**
 
