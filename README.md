@@ -64,13 +64,7 @@ graph TD
 ---
 
 ## 📦 Key Components
-### TO BE REVISITED
-- `env/training_scheduler_env.py`: OpenAI Gym-compatible environment.
-- `models/config.py`: Defines the `TrainingConfig` dataclass.
-- `activities/train_policy_activity.py`: Trains the PPO policy.
-- `activities/run_policy.py`: Loads the policy and computes an action.
-- `activities/generate_clusuter.py`: Simulates a compute cluster.
-- `activities/generate_jobs.py`: Creates simulated job workloads.
+- `env/training_scheduler_env.py`: RLLib & OpenAI Gym-compatible environment.
 - `workflows/test_workflow.py`: For quick validation of activity registration and Ray setup.
 - `workflows/training_workflow.py`: Orchestrates single-round training and evaluation.
 - `workflows/training_loop_workflow.py`: Runs multiple training cycles and tracks output.
@@ -84,6 +78,7 @@ graph TD
 ```bash
 pip install -r requirements.txt
 ```
+It is recomended to do this in a virtual environment. This is tested on Python 3.9.14. 
 
 2. **Start Temporal (locally or via Temporal Cloud)**
 
@@ -109,18 +104,16 @@ For best results, run the training loop for a while before testing inference.
 
 This project uses:
 - Temporal activity retries for robustness
-- Long-running training with `heartbeat_timeout`
-- `to_builtin()` helpers to serialize NumPy values safely
 
 ---
 
 ## 🧭 Future Extensions
 
-- Use Temporal Signals for dynamic policy updates
-- Schedule recurring training via Temporal Schedules
+- Adapt the job and config structure to reflect a real cloud compute environment
+- Adapt to run as a cloud-based application instead of a local applicatoin
+- Create a meaningful reward to improve RL effectiveness
 - Store checkpoints in cloud storage (e.g., S3)
-- Track performance metrics over time and push to dashboards
-
+- Track training performance metrics over time and push to dashboards
 ---
 
 ## 📚 Resources
