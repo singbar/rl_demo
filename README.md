@@ -17,7 +17,7 @@ We train an RL-based job scheduler in a simulated cluster environment. Temporal 
 
 ## ⚙️ Architecture
 
-### 🧪 `test_workflow`
+### `test_workflow`
 
 A lightweight test of Temporal activity registration and Ray integration.
 
@@ -32,7 +32,7 @@ graph TD
 
 ---
 
-### 🔁 `scheduler_workflow`
+### `scheduler_workflow`
 
 This workflow runs inference on a PPO model using Ray RLlib to schedule synthetic job requests to a simulated set of clusters
 
@@ -45,7 +45,7 @@ graph TD
 
 ---
 
-### 🎯 `training_loop_workflow`
+### `training_loop_workflow`
 
 Iteratively loops through training rounds, generating fresh data, training the model, and scoring the result with a reward. Will iterate continuously until interrupted via a signal
 
