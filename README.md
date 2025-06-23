@@ -73,12 +73,16 @@ graph TD
 
 ## 🛠 Running the Project
 
+0. **Compatibility**
+- This project is not supported on Windows and WSL support is not guaranteed. Ray support for Windows is still in beta. 
+
 1. **Install dependencies**
 
 ```bash
 pip install -r requirements.txt
 ```
 It is recomended to do this in a virtual environment. This is tested on Python 3.9.14. 
+```
 
 2. **Start Temporal (locally or via Temporal Cloud)**
 
