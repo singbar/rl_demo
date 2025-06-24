@@ -12,13 +12,19 @@ class TrainingJobSchedulingEnv(gym.Env):
     def __init__(self, config=None):
         super().__init__()
 
-        self.max_jobs = 500
-        self.max_nodes = 3
-        self.max_episode_steps = 100
-        self.job_feature_size = 8
-        self.node_feature_size = 6
-        self.global_feature_size = 2
-        self.steps_taken = 0
+        self.max_jobs = 500 #Maximum number of jobs that can be submitted to the observation space
+        self.max_nodes = 3 #Maximum number of nodes 
+        self.max_episode_steps = 100 #Maxiumum number of steps in an episode
+        self.job_feature_size = 8 #Number of properties associated with each job in the queue
+        self.node_feature_size = 6 #Number of properties associated with each node in the cluster
+        self.global_feature_size = 2 #The number of global features (in this case, the number of jobs that need to be scheduled and number of healthy nodes)
+        self.steps_taken = 0 #Counts the number of steps taken during each episode
+
+        #Observation Space
+        #In the observation space, we define the shape of the model inputs. 
+        #   Job Features is defined as a 500x8 (500 jobs by 8 features) matrix with all numeric data in 32-bit floating point numbers
+        #   Cluster features is defined as a 3x6 matrix with all numeric data in 32-bit floating point numbers
+        #   Global Features is defined as a 2 property matrix
 
         self.observation_space = spaces.Dict({
             "job_features": spaces.Box(low=0, high=np.inf, shape=(self.max_jobs, self.job_feature_size), dtype=np.float32),

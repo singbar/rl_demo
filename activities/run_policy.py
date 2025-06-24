@@ -4,11 +4,12 @@ import numpy as np
 from env.training_scheduler_env import TrainingJobSchedulingEnv
 from utils.to_builtin import to_builtin 
 
-#This activity runs inference on the model. It takes a batch of jobs to scheudle and produces an initial action as the output. 
+#This activity runs inference on the model. It takes a batch of jobs to schedule and produces an initial action as the output. 
 @activity.defn(name="run_policy_activity")
-async def run_policy_activity(observation: dict):
 
-    import ray # <-- Importing ray within the activity to avoid sandbox errors with temporal
+async def run_policy_activity(observation: dict) -> dict:
+
+    import ray # Importing ray within the activity to correct sandbox errors with temporal
     from ray.rllib.algorithms.ppo import PPOConfig 
 
 
