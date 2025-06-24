@@ -42,7 +42,6 @@ graph TD
     B --> C[run PPO inference]
     C --> D[print inference results]
 ```
-
 ---
 
 ### `training_loop_workflow`
@@ -77,28 +76,41 @@ graph TD
 - This project is not supported on Windows and WSL support is not guaranteed. Ray support for Windows is still in beta. 
 
 1. **Install dependencies**
+This is tested on Python 3.9.14. It will not work on versions of python above 3.12. It may not work on other versions of python. 
+
+With Python 3.9 installed, create a virtual environment: 
 
 ```bash
+
+# Create the venv in a folder called `.venv`
+python3.9 -m venv .venv
+
+# Activate the venv (for Bash / Linux / macOS)
+source .venv/bin/activate
+
+# Install the requirements
 pip install -r requirements.txt
 ```
-It is recomended to do this in a virtual environment. This is tested on Python 3.9.14. 
 
 2. **Start Temporal (locally or via Temporal Cloud)**
 
+```bash
+temporal server start-dev
+```
+
 3. **Run the worker**
+- From the root directory of the package, run the following: 
 
 ```bash
 python -m client.launch_worker_local.py
 ```
 
 4. **Trigger the workflows**
-
-- Run all workflows through:
+- From the root directory of the package, launch the client to run all workflows by running:
 
 ```bash
 python -m client.rl_client
 ```
-
 ---
 
 For best results, run the training loop for a while before testing inference. 

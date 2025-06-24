@@ -36,6 +36,11 @@ class SchedulerWorkflow:
             safe_cluster = convert_numpy(cluster)
             safe_action = convert_numpy(action)
 
+            print("Calling apply_schedule_activity with:")
+            print("  jobs:", type(safe_jobs), "sample:", safe_jobs[:1])
+            print("  cluster:", type(safe_cluster), "sample:", safe_cluster[:1])
+            print("  action:", type(safe_action), "sample:", safe_action)
+
             await workflow.execute_activity(
                 apply_schedule_activity,
                 args=[safe_jobs, safe_cluster, safe_action],
