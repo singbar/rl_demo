@@ -11,9 +11,3 @@ temporalio           # For workflow orchestration (optional, for full integratio
 
 # Misc dependencies
 aiohttp==3.9.3
-
-# Optional for dev/logging/debugging
-matplotlib           # For reward visualization (optional)
-pandas               # If you want to analyze job/state logs
-
-# Version pinning is optional for now
