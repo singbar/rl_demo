@@ -1,50 +1,59 @@
-from temporalio import workflow
-from temporalio import activity
-from datetime import timedelta
-from activities.generate_jobs import generate_jobs_activity
-from activities.generate_clusuter import generate_cluster_activity
-from activities.apply_schedule_activity import apply_schedule_activity
-from activities.run_policy import run_policy_activity
-from utils.state_encoder import encode_state
-from utils.numpy_converter import convert_numpy
+# This worker handles both inference and training tasks for a reinforcement learning (RL) scheduling system
+# It connects to Temporal, registers workflows and activities, and runs a polling loop to process tasks
 
-@workflow.defn
-class SchedulerWorkflow:
-    @workflow.run
-    async def run(self):
-        for _ in range(10):  # replace with while True in prod
-            jobs = await workflow.execute_activity(
-                generate_jobs_activity,
-                schedule_to_close_timeout=timedelta(seconds=60)
-            )
-            cluster = await workflow.execute_activity(
-                generate_cluster_activity,
-                schedule_to_close_timeout=timedelta(seconds=60)
-            )
+# --- Imports ---
+import os
+from temporalio.worker import Worker              # Main Temporal worker class
+from temporalio.client import Client              # Used to connect to Temporal server
 
-            obs = encode_state(jobs, cluster)
-            obs = convert_numpy(obs)  # 🔧 Ensure JSON-serializable
+# Import workflows (defined separately)
+from workflows.scheduler_workflow import SchedulerWorkflow            # Handles periodic job scheduling with RL policy
+from workflows.test_workflow import TrainingWorkflow                  # Single-run training workflow for PPO
+from workflows.training_loop_workflow import TrainingWorkflowLoop     # Batched/looped training workflow
 
-            action = await workflow.execute_activity(
-                run_policy_activity,
-                args=[obs],
-                schedule_to_close_timeout=timedelta(seconds=60)
-            )
+# Import activity functions (stateless units of work)
+from activities.generate_clusuter import generate_cluster_activity    # Simulates current cluster state
+from activities.generate_jobs import generate_jobs_activity           # Generates a batch of synthetic jobs
+from activities.apply_schedule_activity import apply_schedule_activity  # Applies selected action to the environment
+from activities.run_policy import run_policy_activity                 # Runs PPO policy inference
+from activities.train import train_policy_activity                    # Trains the PPO agent on collected episodes
 
-            # 🔧 Ensure all arguments are JSON-serializable
-            safe_jobs = convert_numpy(jobs)
-            safe_cluster = convert_numpy(cluster)
-            safe_action = convert_numpy(action)
 
-            print("Calling apply_schedule_activity with:")
-            print("  jobs:", type(safe_jobs), "sample:", safe_jobs[:1])
-            print("  cluster:", type(safe_cluster), "sample:", safe_cluster[:1])
-            print("  action:", type(safe_action), "sample:", safe_action)
+# --- Main Async Entry Point ---
+async def main():
+    print(">>> Worker main() started")
 
-            await workflow.execute_activity(
-                apply_schedule_activity,
-                args=[safe_jobs, safe_cluster, safe_action],
-                schedule_to_close_timeout=timedelta(seconds=15)
-            )
+    # Fetch Temporal Cloud or local server address from env var, with localhost fallback
+    address = os.getenv("TEMPORAL_ADDRESS", "localhost:7233") 
+    print(f">>> Connecting to Temporal at {address}...")
 
-            await workflow.sleep(10)
+    # Establish connection to Temporal server
+    client = await Client.connect(address)
+    print(">>> Connected to Temporal")
+
+    # Instantiate a Temporal worker that will:
+    # - listen on a task queue
+    # - process workflow executions
+    # - run registered activities
+    worker = Worker(
+        client,
+        task_queue="ml-scheduler-task-queue",  # All workflows/activities are routed here
+        workflows=[
+            SchedulerWorkflow,         # Inference-only loop: generate state, run policy, apply action
+            TrainingWorkflow,          # Runs a single training iteration (test/debug use)
+            TrainingWorkflowLoop       # Long-running training loop (e.g. train PPO across many batches)
+        ],
+        activities=[
+            generate_cluster_activity, # Simulate cluster state
+            generate_jobs_activity,    # Generate jobs to schedule
+            run_policy_activity,       # Run trained policy to get action
+            apply_schedule_activity,   # Apply action to cluster+jobs
+            train_policy_activity      # Train the PPO model using RLlib
+        ],
+        max_concurrent_activities=15,  # Cap parallel activity execution to avoid overload
+    )
+
+    print(">>> Worker starting polling loop...")
+    
+    # Begin polling loop to receive and process tasks from the Temporal server
+    await worker.run()
