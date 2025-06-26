@@ -32,7 +32,7 @@ class TrainingWorkflow:
     async def run(self, config: TrainingConfig) -> dict:
         # --- Step 1: Simulate Cluster State ---
         # Generate synthetic cluster hardware state (CPU/GPU availability, health, etc.)
-        cluster = await workflow.execute_activity(
+        cluster = workflow.execute_activity(
             generate_cluster_activity,
             args=[False],  # debug flag (False = no console logs)
             start_to_close_timeout=timedelta(seconds=30),
@@ -40,11 +40,13 @@ class TrainingWorkflow:
 
         # --- Step 2: Generate Synthetic Job Queue ---
         # Simulate a batch of 100–500 incoming jobs with random requirements and deadlines
-        jobs = await workflow.execute_activity(
+        jobs = workflow.execute_activity(
             generate_jobs_activity,
             args=[False],  # debug flag
             start_to_close_timeout=timedelta(seconds=30),
         )
+
+        await asyncio.gather(cluster,jobs)
 
         # --- Step 3: Train PPO Policy on Simulated Data ---
         # Calls into an activity that loads the environment, trains the policy, and saves a checkpoint

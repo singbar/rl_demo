@@ -1,0 +1,363 @@
+[33mcommit bdf00d82dbcedeb5e352f1aa53724eb74c5e9b63[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Sam <singbar00@gmail.com>
+Date:   Tue Jun 24 20:17:15 2025 -0700
+
+    update requirements
+
+[33mcommit 70c83ee8c6d7b36f186ddf3169a0fb3813ba9bc5[m
+Author: Sam <singbar00@gmail.com>
+Date:   Tue Jun 24 20:16:12 2025 -0700
+
+    added immproved comments
+
+[33mcommit 0f81bfe356d1c9bf13ed3db383e9c538b9a68030[m
+Author: Sam Ingbar <ingbars@amazon.com>
+Date:   Tue Jun 24 18:13:43 2025 -0700
+
+    updates
+
+[33mcommit 14cdcaba084b3e818647213b729d2d10b2ab1983[m
+Author: Sam Ingbar <ingbars@amazon.com>
+Date:   Tue Jun 24 15:54:06 2025 -0700
+
+    add comments and reward logic
+
+[33mcommit 4de3bb47b71e444159ace12c2591908a560894b1[m
+Author: Sam Ingbar <ingbars@amazon.com>
+Date:   Tue Jun 24 11:31:54 2025 -0700
+
+    enhanced comments
+
+[33mcommit 00d6aab4a3019d42d328de8385c3662ca65d273f[m
+Author: Sam <singbar00@gmail.com>
+Date:   Mon Jun 23 12:11:35 2025 -0700
+
+    Readme revisions
+
+[33mcommit f15bceff23e3262ebb6b5fd59670f941c56148ac[m
+Author: Sam <singbar00@gmail.com>
+Date:   Mon Jun 23 12:11:09 2025 -0700
+
+    Readme revisions
+
+[33mcommit 976707b466d838085b25f5e44f7717fdb9257f81[m
+Author: Sam <singbar00@gmail.com>
+Date:   Mon Jun 23 12:08:01 2025 -0700
+
+    Readme revisions
+
+[33mcommit 40dc45c5a67d8330915b32fe12b1120b1a1208fb[m
+Author: Sam <singbar00@gmail.com>
+Date:   Mon Jun 23 12:06:42 2025 -0700
+
+    Readme revisions
+
+[33mcommit 74e19080b9cf0996d5305c102279d8bdf0dfd056[m
+Author: singbar <164133052+singbar@users.noreply.github.com>
+Date:   Sun Jun 22 15:19:31 2025 -0700
+
+    Update .gitignore
+
+[33mcommit 8ff7bb34e9d2ad2b75b6e7deb5e6de5475bc8838[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 15:14:32 2025 -0700
+
+    Updated Readme
+
+[33mcommit 32980c5035ea8b3241edfa3cd46e1467784a3c07[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 14:58:48 2025 -0700
+
+    Updated Readme
+
+[33mcommit 2fdcaf5e4931dcdb8e618d1307299f891658d9c8[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 14:49:13 2025 -0700
+
+    semi-final polish
+
+[33mcommit a792f877b0e20ab86619587f372ec451936ac44a[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 14:38:52 2025 -0700
+
+    client fix
+
+[33mcommit 33c8a9d3023b112ab2125fdf6c9cd2e410886e30[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 14:35:21 2025 -0700
+
+    client fix
+
+[33mcommit 18d53c9a7ba7c0e5c14d632568b1d43064070f62[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 14:32:16 2025 -0700
+
+    refactoring for name changes
+
+[33mcommit ae560d6ba93fa9f3b8080f085111b9f2e7ed98e6[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 14:29:14 2025 -0700
+
+    added client and additional cleanup
+
+[33mcommit ed2ed750ddbef99c73641ddf75a0a60287f2a898[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 13:35:12 2025 -0700
+
+    made the training v2 loop
+
+[33mcommit 923e1237502e0cdb76379b90384b07b5b8262f61[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 13:25:07 2025 -0700
+
+    Added rich comments and polish
+
+[33mcommit 29bab3460668bbf66eb1b5bd40c49d30e1bd4a97[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 12:07:14 2025 -0700
+
+    increase training iterations to 50
+
+[33mcommit 0dd9d62c42bc04467bd64e317314e242652d3e10[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 12:04:05 2025 -0700
+
+    scheduler_env cleanup
+
+[33mcommit 496d30e295ab736d3b058a75f2adc6c14d3e8483[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 12:01:03 2025 -0700
+
+    scheduler_env cleanup
+
+[33mcommit ea904360ad33646599969bdf5d2ce71325d9a428[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 11:58:17 2025 -0700
+
+    scheduler_env cleanup
+
+[33mcommit 2bc4ede266c49f9c7a4c5759108c115a8ec389cc[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 11:50:44 2025 -0700
+
+    increase encoder robustness
+
+[33mcommit dd0ea719398b2ec040f81fe1799dd3d933e0eee2[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 11:25:37 2025 -0700
+
+    Revert "test batch inference"
+    
+    This reverts commit f37c4b151ceeaec5ec004f5b40697044a221af22.
+
+[33mcommit 69fb9bad87f1bf47b4447424e688c715f4df146f[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 11:24:21 2025 -0700
+
+    Revert "bugfix"
+    
+    This reverts commit 564dae224a4679ad76d0b284f8bd35af299ddc0b.
+
+[33mcommit 564dae224a4679ad76d0b284f8bd35af299ddc0b[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 11:14:42 2025 -0700
+
+    bugfix
+
+[33mcommit f37c4b151ceeaec5ec004f5b40697044a221af22[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 11:08:58 2025 -0700
+
+    test batch inference
+
+[33mcommit a1e675a6ea01b5124411909beb3787bd2a3dac52[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 10:47:20 2025 -0700
+
+    update run policy to accept tuples
+
+[33mcommit 74809520816caff27356298992527da6f600ba7b[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 10:29:41 2025 -0700
+
+    test
+
+[33mcommit 16aa0802500ed541a6869957b09a5e7a25e1c5fd[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 10:08:02 2025 -0700
+
+    make checkpoint path serializable for tmemporal
+
+[33mcommit fb91fdc66d0de9da061edc05402eeb11dad1c33a[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 10:05:33 2025 -0700
+
+    make checkpoint path serializable for tmemporal
+
+[33mcommit 821a06da59549ad0230894635eefcd32a4ebb8c9[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 09:57:33 2025 -0700
+
+    make checkpoint path serializable for tmemporal
+
+[33mcommit 0230a44c87002565ca3ad8283a159b42ec8acbb9[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 09:51:35 2025 -0700
+
+    make checkpoint path serializable for tmemporal
+
+[33mcommit 77aefbade896f4952fa5fec9ab438459de007f0e[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 09:47:29 2025 -0700
+
+    make checkpoint path serializable for tmemporal
+
+[33mcommit 75ea267a6c93e9901bae0a038056b36b9296cf02[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 09:42:50 2025 -0700
+
+    fix dependencies
+
+[33mcommit f2a13eaf09b11d43f54dbf26865d7233dea12a51[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 09:41:48 2025 -0700
+
+    fix broken imports
+
+[33mcommit 4727465b0a2f4fc84f630d2864f4ebbabdea931c[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 09:30:07 2025 -0700
+
+    fix broken imports
+
+[33mcommit fa7e4c17101d4d7427661b02dc729e2c68f5529e[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 09:28:53 2025 -0700
+
+    fix broken imports
+
+[33mcommit d006c5376d547111d9be8860567b18fb3f28cacb[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 09:20:54 2025 -0700
+
+    bugfix
+
+[33mcommit edd17e68cad29e36ff09035f6e1a4ffd41fbec91[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 09:16:49 2025 -0700
+
+    bugfix
+
+[33mcommit 79fbd925fbf1fd3bc8d12eed7bf2eec7ae2d17e9[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 09:11:40 2025 -0700
+
+    fix broken imports
+
+[33mcommit c6033b7bb21a8e5e4dcf9abd95aa6ce00e90ec41[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 09:10:24 2025 -0700
+
+    debug
+
+[33mcommit 002ffee7e5a34998520e4a01d50724dbb7d29a61[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 01:12:26 2025 -0700
+
+    fix positional args
+
+[33mcommit bc822d4953d90bc3e098c33b752d0d9d3abd9056[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 01:09:22 2025 -0700
+
+    minor bugfix
+
+[33mcommit b3775ded209b493c263cbf2e461f37dba9f44ff1[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 01:07:36 2025 -0700
+
+    bugfix
+
+[33mcommit de0de1e46107c1d59688d9cc0ff370419ee08281[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 01:06:18 2025 -0700
+
+    add config to test script
+
+[33mcommit 5720b720baaa4c5f617b902d591a4e5f202448b0[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 01:00:42 2025 -0700
+
+    minor bugfix
+
+[33mcommit 3e18074aa8c26e77e13dd99fff302360b6f57d4d[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 00:58:33 2025 -0700
+
+    refined training worfklow and activity
+
+[33mcommit 65c6cfafb52283c708d5b0346bc09ad9eefe1cd5[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 00:53:23 2025 -0700
+
+    refined training worfklow and activity
+
+[33mcommit 1fcc668f6d51c56ebbe17e5320722124fb6268b3[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 00:14:13 2025 -0700
+
+    additional cleanup
+
+[33mcommit 24c62a0a18ceb35390f8adf1545c100064536e83[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sun Jun 22 00:09:23 2025 -0700
+
+    add test_training.py test script and updated readme
+
+[33mcommit 8c3d905f1499c3202f9828bed3e73bc9508e6655[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sat Jun 21 21:12:47 2025 -0700
+
+    added training
+
+[33mcommit 0b227c24b5a8f95d4d71fa2a04e05574f5001438[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sat Jun 21 20:45:45 2025 -0700
+
+    update config
+
+[33mcommit 3eb907afd924e7530e2afe15c2b7d9a14e569c5d[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sat Jun 21 20:43:56 2025 -0700
+
+    update config
+
+[33mcommit 1e62ba9599e8d8dc55a573fdc30a39aa1f95e629[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sat Jun 21 20:39:52 2025 -0700
+
+    update config
+
+[33mcommit 4ee6c937a156485fa52a2b989d4ec6ba14ecbdee[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sat Jun 21 20:30:04 2025 -0700
+
+    update requirements.txt
+
+[33mcommit 40c70ebea1774c4d77c16614c9896ea30e53d0d4[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sat Jun 21 19:05:28 2025 -0700
+
+    Add .venv to .gitignore
+
+[33mcommit 5116c7d8869af735576fe88592b836a54a8be867[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sat Jun 21 19:05:18 2025 -0700
+
+    Initial commit
+
+[33mcommit 320981084e454345219756596f42d3d317fdba4f[m
+Author: Sam <singbar00@gmail.com>
+Date:   Sat Jun 21 19:02:08 2025 -0700
+
+    first commit

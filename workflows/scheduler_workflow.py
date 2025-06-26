@@ -1,59 +1,70 @@
-# This worker handles both inference and training tasks for a reinforcement learning (RL) scheduling system
-# It connects to Temporal, registers workflows and activities, and runs a polling loop to process tasks
+from temporalio import workflow
+from datetime import timedelta
 
-# --- Imports ---
-import os
-from temporalio.worker import Worker              # Main Temporal worker class
-from temporalio.client import Client              # Used to connect to Temporal server
+# ⬇ Import all required activities
+from activities.generate_jobs import generate_jobs_activity
+from activities.generate_clusuter import generate_cluster_activity
+from activities.apply_schedule_activity import apply_schedule_activity
+from activities.run_policy import run_policy_activity
 
-# Import workflows (defined separately)
-from workflows.scheduler_workflow import SchedulerWorkflow            # Handles periodic job scheduling with RL policy
-from workflows.test_workflow import TrainingWorkflow                  # Single-run training workflow for PPO
-from workflows.training_loop_workflow import TrainingWorkflowLoop     # Batched/looped training workflow
-
-# Import activity functions (stateless units of work)
-from activities.generate_clusuter import generate_cluster_activity    # Simulates current cluster state
-from activities.generate_jobs import generate_jobs_activity           # Generates a batch of synthetic jobs
-from activities.apply_schedule_activity import apply_schedule_activity  # Applies selected action to the environment
-from activities.run_policy import run_policy_activity                 # Runs PPO policy inference
-from activities.train import train_policy_activity                    # Trains the PPO agent on collected episodes
+# ⬇ Utility modules for preparing data for inference
+from utils.state_encoder import encode_state
+from utils.numpy_converter import convert_numpy
 
 
-# --- Main Async Entry Point ---
-async def main():
-    print(">>> Worker main() started")
+@workflow.defn
+class SchedulerWorkflow:
+    """
+    This Temporal workflow performs **inference-only job scheduling** using a pre-trained PPO policy.
+    It's used to simulate how the model behaves in a production loop and supports eventual integration
+    with live job streams and real-time cluster state reporting.
+    """
 
-    # Fetch Temporal Cloud or local server address from env var, with localhost fallback
-    address = os.getenv("TEMPORAL_ADDRESS", "localhost:7233") 
-    print(f">>> Connecting to Temporal at {address}...")
+    @workflow.run
+    async def run(self):
+        # 🚀 Main inference loop: repeat every N seconds
+        for _ in range(10):  # 🔁 Use `while True` in production for long-running behavior
 
-    # Establish connection to Temporal server
-    client = await Client.connect(address)
-    print(">>> Connected to Temporal")
+            # STEP 1: Simulate or retrieve current jobs
+            jobs = await workflow.execute_activity(
+                generate_jobs_activity,
+                schedule_to_close_timeout=timedelta(seconds=60),
+            )
 
-    # Instantiate a Temporal worker that will:
-    # - listen on a task queue
-    # - process workflow executions
-    # - run registered activities
-    worker = Worker(
-        client,
-        task_queue="ml-scheduler-task-queue",  # All workflows/activities are routed here
-        workflows=[
-            SchedulerWorkflow,         # Inference-only loop: generate state, run policy, apply action
-            TrainingWorkflow,          # Runs a single training iteration (test/debug use)
-            TrainingWorkflowLoop       # Long-running training loop (e.g. train PPO across many batches)
-        ],
-        activities=[
-            generate_cluster_activity, # Simulate cluster state
-            generate_jobs_activity,    # Generate jobs to schedule
-            run_policy_activity,       # Run trained policy to get action
-            apply_schedule_activity,   # Apply action to cluster+jobs
-            train_policy_activity      # Train the PPO model using RLlib
-        ],
-        max_concurrent_activities=15,  # Cap parallel activity execution to avoid overload
-    )
+            # STEP 2: Simulate or retrieve current cluster resource state
+            cluster = await workflow.execute_activity(
+                generate_cluster_activity,
+                schedule_to_close_timeout=timedelta(seconds=60),
+            )
 
-    print(">>> Worker starting polling loop...")
-    
-    # Begin polling loop to receive and process tasks from the Temporal server
-    await worker.run()
+            # STEP 3: Encode the current state into a model-compatible observation
+            # This prepares the data for input into the PPO policy (shapes, types, normalization)
+            obs = encode_state(jobs, cluster)
+            obs = convert_numpy(obs)  # ✅ Ensures it’s safe to pass as JSON to an activity
+
+            # STEP 4: Invoke the pre-trained RL policy to compute a scheduling action
+            action = await workflow.execute_activity(
+                run_policy_activity,
+                args=[obs],
+                schedule_to_close_timeout=timedelta(seconds=60),
+            )
+
+            # STEP 5: Re-serialize all return values for the next activity
+            # Even if the raw objects came from a Temporal activity, re-serialization avoids type issues
+            safe_jobs = convert_numpy(jobs)
+            safe_cluster = convert_numpy(cluster)
+            safe_action = convert_numpy(action)
+
+            # STEP 6: Simulate applying the model's decision (e.g. job→node assignment)
+            # This mimics how a real-world job scheduler might execute the action
+            await workflow.execute_activity(
+                apply_schedule_activity,
+                args=[safe_jobs, safe_cluster, safe_action],
+                schedule_to_close_timeout=timedelta(seconds=15),
+            )
+
+            # STEP 7: Wait before next scheduling window (can represent polling interval or pacing)
+            await workflow.sleep(10)
+
+        # 📦 Workflow ends after 10 iterations (for testing or evaluation purposes)
+        # In production, we would use a `while True` loop or an external stop signal
