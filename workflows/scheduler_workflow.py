@@ -1,6 +1,6 @@
 from temporalio import workflow
 from datetime import timedelta
-
+import asyncio
 # ⬇ Import all required activities
 from activities.generate_jobs import generate_jobs_activity
 from activities.generate_clusuter import generate_cluster_activity
@@ -26,16 +26,18 @@ class SchedulerWorkflow:
         for _ in range(1):  # 🔁 Use `while True` in production for long-running behavior
 
             # STEP 1: Simulate or retrieve current jobs
-            jobs = await workflow.execute_activity(
+            jobs_create = workflow.execute_activity(
                 generate_jobs_activity,
                 schedule_to_close_timeout=timedelta(seconds=60),
             )
 
             # STEP 2: Simulate or retrieve current cluster resource state
-            cluster = await workflow.execute_activity(
+            cluster_create = workflow.execute_activity(
                 generate_cluster_activity,
                 schedule_to_close_timeout=timedelta(seconds=60),
             )
+
+            jobs,cluster = await asyncio.gather(jobs_create,cluster_create)
 
             # STEP 3: Encode the current state into a model-compatible observation
             # This prepares the data for input into the PPO policy (shapes, types, normalization)
@@ -57,14 +59,12 @@ class SchedulerWorkflow:
 
             # STEP 6: Simulate applying the model's decision (e.g. job→node assignment)
             # This mimics how a real-world job scheduler might execute the action
-            await workflow.execute_activity(
+            schedule = await workflow.execute_activity(
                 apply_schedule_activity,
                 args=[safe_jobs, safe_cluster, safe_action],
                 schedule_to_close_timeout=timedelta(seconds=15),
             )
+            return schedule
 
-            # STEP 7: Wait before next scheduling window (can represent polling interval or pacing)
-            await workflow.sleep(10)
-
-        # 📦 Workflow ends after 10 iterations (for testing or evaluation purposes)
+        # 📦 Workflow ends after 1 iteration (for testing or evaluation purposes)
         # In production, we would use a `while True` loop or an external stop signal

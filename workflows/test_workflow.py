@@ -71,10 +71,11 @@ class TestWorkflow:
         safe_cluster = convert_numpy(cluster)
         safe_action = convert_numpy(action)
 
-        await workflow.execute_activity(
+        result = await workflow.execute_activity(
             apply_schedule_activity,
             args=[safe_jobs, safe_cluster, safe_action],
             schedule_to_close_timeout=timedelta(seconds=15),
         )
+        return result
 
         # --- Step 6: Return Outputs for Debugging or Testing ---
