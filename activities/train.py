@@ -56,7 +56,7 @@ async def train_policy_activity(config: dict = None) -> str:
 
     # --- Training Loop ---
     # Executes the training algorithm for N iterations. Output includes mean reward per episode.
-    num_iters = config.get("iterations", 15)
+    num_iters = config.get("iterations", 10)
     for i in range(num_iters):
         result = algo.train()
         # Print reward trend (optional: print full result for debugging)

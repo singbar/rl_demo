@@ -8,7 +8,7 @@ from temporalio.client import Client              # Used to connect to Temporal 
 
 # Import workflows (defined separately)
 from workflows.scheduler_workflow import SchedulerWorkflow            # Handles periodic job scheduling with RL policy
-from workflows.test_workflow import TrainingWorkflow                  # Single-run training workflow for PPO
+from workflows.test_workflow import TestWorkflow                  # Single-run training workflow for PPO
 from workflows.training_loop_workflow import TrainingWorkflowLoop     # Batched/looped training workflow
 
 # Import activity functions (stateless units of work)
@@ -40,7 +40,7 @@ async def main():
         task_queue="ml-scheduler-task-queue",  # All workflows/activities are routed here
         workflows=[
             SchedulerWorkflow,         # Inference-only loop: generate state, run policy, apply action
-            TrainingWorkflow,          # Runs a single training iteration (test/debug use)
+            TestWorkflow,          # Runs a single training iteration (test/debug use)
             TrainingWorkflowLoop       # Long-running training loop (e.g. train PPO across many batches)
         ],
         activities=[

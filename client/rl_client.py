@@ -15,7 +15,7 @@ from dataclasses import asdict
 # Import workflow definitions and config dataclass
 from workflows.training_loop_workflow import TrainingWorkflowLoop, TrainingConfig
 from workflows.scheduler_workflow import SchedulerWorkflow
-from workflows.test_workflow import TrainingWorkflow
+from workflows.test_workflow import TestWorkflow
 
 # --- Default Config ---
 # This is passed to training workflows to configure PPO training.
@@ -80,7 +80,7 @@ async def run():
         # --- Option 4: End-to-end test of all activities ---
         elif choice == "4":
             handle = await client.start_workflow(
-                TrainingWorkflow.run,
+                TestWorkflow.run,
                 default_config,
                 id="e2e-test-run",
                 task_queue="ml-scheduler-task-queue",

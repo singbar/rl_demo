@@ -16,7 +16,7 @@ def to_builtin(x):
     # Case 1: Convert NumPy arrays
     if isinstance(x, np.ndarray):
         if x.size == 1:
-            # If it's a single-element array (e.g., np.array([42.0])), convert to scalar
+            # If it's a single-element array (e.g., np.array([42.0])), convert to scalar (Int/Float)
             return x.item()
         # Otherwise, convert entire array to a list of lists or flat list
         return x.tolist()

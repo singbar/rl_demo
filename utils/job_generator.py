@@ -58,8 +58,8 @@ def generate_pending_jobs(debug=False):
 
         job = {
             "job_id": f"job-{i+1}",                          # Unique job identifier (e.g., job-42)
-            "cpu_required": random.randint(1, 150),          # CPU units needed for the job
-            "gpu_required": random.randint(1, 1500),         # GPU units needed
+            "cpu_required": random.randint(1, 10),          # CPU units needed for the job
+            "gpu_required": random.randint(1, 150),         # GPU units needed
             "priority": random.randint(1, 3),                # Priority: 1 (low), 2 (medium), 3 (high)
             "arrival_time": (current_time - arrival_offset).isoformat(timespec='seconds'),
             "deadline": (current_time + deadline_offset).isoformat(timespec='seconds'),

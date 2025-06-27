@@ -23,7 +23,7 @@ class SchedulerWorkflow:
     @workflow.run
     async def run(self):
         # 🚀 Main inference loop: repeat every N seconds
-        for _ in range(10):  # 🔁 Use `while True` in production for long-running behavior
+        for _ in range(1):  # 🔁 Use `while True` in production for long-running behavior
 
             # STEP 1: Simulate or retrieve current jobs
             jobs = await workflow.execute_activity(
