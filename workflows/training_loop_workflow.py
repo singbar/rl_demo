@@ -34,8 +34,6 @@ class TrainingWorkflowLoop:
         Starts a loop that repeatedly invokes the training activity.
         Can be stopped gracefully using a Temporal signal.
         """
-        # Register a signal handler to gracefully stop training when externally requested
-        workflow.set_signal_handler("stop_training", self.stop_training)
 
         i = 0
         last_checkpoint_path = None  # Keeps track of the most recent model checkpoint
@@ -57,7 +55,7 @@ class TrainingWorkflowLoop:
             "stopped_after": i,
             "checkpoint_path": last_checkpoint_path,
         }
-
+    @workflow.signal
     def stop_training(self):
         """
         Signal handler for stopping the training loop externally.
